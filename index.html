@@ -1,113 +1,183 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>decoded_191 — Terminal</title>
-<style>
-:root{--bg:#000;--green:#00ff66;--muted:#07120a;--glass:rgba(0,0,0,0.6);--mono:'Courier New',monospace}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{background:linear-gradient(180deg,#000,#020202);color:var(--green);font-family:var(--mono);-webkit-font-smoothing:antialiased}
-canvas#matrix{position:fixed;inset:0;z-index:0;opacity:0.9}
-.container{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:36px}
-.header{display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:14px}
-.avatar{width:86px;height:86px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,255,102,0.15);box-shadow:0 6px 20px rgba(0,255,102,0.04)}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.name{font-size:24px;letter-spacing:1px}
-.tag{font-size:12px;color:rgba(0,255,102,0.6);margin-top:6px}
-.main{margin-top:28px;display:grid;grid-template-columns:1fr 340px;gap:22px}
-.card{background:var(--glass);border:1px solid rgba(0,255,102,0.04);padding:18px;border-radius:10px}
-.section-title{font-size:13px;color:rgba(0,255,102,0.9);margin-bottom:10px}
-.skills{display:flex;flex-direction:column;gap:8px}
-.skill{padding:10px;border-radius:8px;background:rgba(0,0,0,0.45);border:1px dashed rgba(0,255,102,0.04)}
-.port-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.port-item{padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(0,255,102,0.03)}
-.terminal{background:#010101;border-radius:8px;padding:12px;font-family:var(--mono);font-size:13px;color:var(--green);height:140px;overflow:hidden}
-.contact a{color:var(--green);text-decoration:none;border:1px solid rgba(0,255,102,0.06);padding:8px 10px;border-radius:8px;display:inline-block}
-.footer{margin-top:18px;color:rgba(0,255,102,0.12);font-size:12px}
-.glitch{position:relative;display:inline-block}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;opacity:0.8}
-.glitch::before{transform:translate(-2px,-1px);color:rgba(0,255,102,0.6)}
-.glitch::after{transform:translate(2px,1px);color:rgba(0,255,102,0.35)}
-@media(max-width:900px){.main{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto News Website</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+    }/* Header */
+header {
+  background: #222;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+.menu-btn {
+  font-size: 22px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* Drawer */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: #333;
+  color: white;
+  padding-top: 60px;
+  transition: left 0.3s;
+}
+.drawer a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid #444;
+}
+.drawer a:hover {
+  background: #444;
+}
+.drawer.open {
+  left: 0;
+}
+
+/* Content */
+.content {
+  padding: 20px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  margin-bottom: 20px;
+}
+
+/* Auth */
+.auth-box {
+  max-width: 400px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+  </style>
 </head>
-<body>
-<canvas id="matrix"></canvas>
-<div class="container">
-  <div class="header">
-    <div class="brand">
-      <div class="avatar" id="avatar"><img src="file_0000000033b0622f92e0fa0fddba3a14.png" alt="profile"/></div>
-      <div>
-        <div class="name">decoded_191</div>
-        <div class="tag">/root@terminal</div>
-      </div>
+<body><header>
+  <span class="menu-btn">☰</span>
+  <h2>Crypto News</h2>
+</header><div class="drawer" id="drawer">
+  <a href="#home" onclick="showPage('home')">Home</a>
+  <a href="#about" onclick="showPage('about')">About Us</a>
+  <a href="#contact" onclick="showPage('contact')">Contact Us</a>
+  <a href="#login" onclick="showPage('login')">Login / Signup</a>
+</div><div class="content">
+  <!-- Home Page -->
+  <div id="home" class="page">
+    <div class="card">
+      <h2>Today's Crypto News</h2>
+      <div id="news">Loading latest news...</div>
     </div>
-    <div class="tag">minimal • terminal • anonymous</div>
-  </div>  <div class="main">
-    <div>
-      <div class="card">
-        <div class="section-title">SKILLS</div>
-        <div class="skills">
-          <div class="skill">Web Design (static & JS)</div>
-          <div class="skill">Video Editing</div>
-          <div class="skill">Electrical Installations</div>
-          <div class="skill">Ethical Hacking (authorized penetration testing)</div>
-          <div class="skill">Security Research & Responsible Disclosure</div>
-        </div>
-      </div><div class="card" style="margin-top:14px">
-    <div class="section-title">PORTFOLIO</div>
-    <div class="port-grid">
-      <div class="port-item">Landing — client</div>
-      <div class="port-item">Promo — short film</div>
-      <div class="port-item">Lighting — office</div>
-      <div class="port-item">Prototype — web UI</div>
+  </div>  <!-- About Us -->  <div id="about" class="page" style="display:none;">
+    <div class="card">
+      <h2>About Us</h2>
+      <p>We provide the latest updates and news on cryptocurrencies in simple words. Stay informed with real-time updates.</p>
+    </div>
+  </div>  <!-- Contact Us -->  <div id="contact" class="page" style="display:none;">
+    <div class="card">
+      <h2>Contact Us</h2>
+      <p>Email: support@cryptonews.com</p>
+      <p>Phone: +91 9876543210</p>
+    </div>
+  </div>  <!-- Login / Signup -->  <div id="login" class="page" style="display:none;">
+    <div class="auth-box">
+      <h2 id="authTitle">Login</h2>
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="handleAuth()">Submit</button>
+      <p id="toggleAuth" style="cursor:pointer;color:blue;">Don't have an account? Signup</p>
     </div>
   </div>
-</div>
-
-<aside>
-  <div class="card">
-    <div class="section-title">LIVE TERMINAL</div>
-    <div class="terminal" id="terminal">
-      <div>&gt; connected as <strong>decoded_191</strong></div>
-      <div>&gt; last login: <span id="lastlogin"></span></div>
-      <div style="margin-top:8px;opacity:0.9">&gt; status: idle</div>
-    </div>
-
-    <div style="margin-top:12px" class="section-title">CONTACT</div>
-    <div class="contact"><a href="mailto:youremail@example.com">youremail@example.com</a></div>
-  </div>
-</aside>
-
-  </div>  <div class="footer">© <script>document.write(new Date().getFullYear())</script> decoded_191 — terminal theme</div>
 </div><script>
-// matrix effect
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
-window.addEventListener('resize', ()=>{W=canvas.width=innerWidth; H=canvas.height=innerHeight; init();});
-let cols = [];
-function init(){cols=[]; const size=16; const count=Math.ceil(W/size); for(let i=0;i<count;i++){cols.push({x:i*size,y:Math.random()*-1000,spd:2+Math.random()*3,size})}}
-function draw(){ctx.fillStyle='rgba(0,0,0,0.2)';ctx.fillRect(0,0,W,H); for(const c of cols){ctx.fillStyle='rgba(0,255,102,0.06)'; for(let y=c.y;y<H;y+=c.size*5){ctx.fillRect(c.x,y,2,c.size*3)} c.y+=c.spd; if(c.y>H+200) c.y=-Math.random()*800} requestAnimationFrame(draw)}
-init(); draw();
-
-// terminal details
-document.getElementById('lastlogin').textContent = new Date().toLocaleString();
-
-// helper: replace avatar by uploading image file (client-side preview)
-(function(){
-  const avatar = document.getElementById('avatar');
-  avatar.addEventListener('click', ()=>{
-    const input = document.createElement('input'); input.type='file'; input.accept='image/*';
-    input.onchange = e=>{ const f = e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); avatar.querySelector('img').src = url; };
-    input.click();
+  // Drawer Toggle
+  document.querySelector('.menu-btn').addEventListener('click', ()=>{
+    document.getElementById('drawer').classList.toggle('open');
   });
-})();
+
+  // Page Navigation
+  function showPage(id){
+    document.querySelectorAll('.page').forEach(p => p.style.display='none');
+    document.getElementById(id).style.display = 'block';
+    document.getElementById('drawer').classList.remove('open');
+  }
+
+  // Auth System (LocalStorage)
+  let isLogin = true;
+  document.getElementById('toggleAuth').addEventListener('click', ()=>{
+    isLogin = !isLogin;
+    document.getElementById('authTitle').innerText = isLogin ? 'Login' : 'Signup';
+    document.getElementById('toggleAuth').innerText = isLogin ? "Don't have an account? Signup" : "Already have an account? Login";
+  });
+
+  function handleAuth(){
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    if(isLogin){
+      let savedUser = localStorage.getItem('user');
+      let savedPass = localStorage.getItem('pass');
+      if(user === savedUser && pass === savedPass){
+        alert('Login Successful!');
+        showPage('home');
+      } else {
+        alert('Invalid Credentials');
+      }
+    } else {
+      localStorage.setItem('user', user);
+      localStorage.setItem('pass', pass);
+      alert('Signup Successful! Please login now.');
+      isLogin = true;
+      document.getElementById('authTitle').innerText = 'Login';
+      document.getElementById('toggleAuth').innerText = "Don't have an account? Signup";
+    }
+  }
+
+  // Fetch Crypto News (Using free API)
+  async function loadNews(){
+    try{
+      let res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
+      let data = await res.json();
+      document.getElementById('news').innerHTML = `
+        <b>Bitcoin (USD):</b> $${data.bpi.USD.rate} <br>
+        <b>Bitcoin (GBP):</b> £${data.bpi.GBP.rate} <br>
+        <b>Bitcoin (EUR):</b> €${data.bpi.EUR.rate} <br>
+        <p>Updated on: ${data.time.updated}</p>
+      `;
+    } catch(e){
+      document.getElementById('news').innerText = "Failed to load news.";
+    }
+  }
+  loadNews();
 </script></body>
-
 </html>
-
