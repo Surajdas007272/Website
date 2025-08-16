@@ -5,98 +5,204 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crypto News</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f9; }
-    .navbar { background: #222; color: white; padding: 15px; display: flex; align-items: center; }
-    .navbar h1 { flex: 1; font-size: 20px; margin: 0; }
-    .drawer-btn { font-size: 22px; cursor: pointer; }
-    .drawer { width: 250px; background: #333; color: white; height: 100%; position: fixed; top: 0; left: -250px; transition: 0.3s; padding-top: 60px; }
-    .drawer a { display: block; padding: 12px; text-decoration: none; color: white; }
-    .drawer a:hover { background: #444; }
-    .content { padding: 20px; }
-    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
-    .logo { width: 40px; height: 40px; border-radius: 50%; margin: 10px; }
-    .auth-buttons { display: block; }
-    .hidden { display: none !important; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #333;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 10px 15px;
+      display: block;
+      text-decoration: none;
+      color: white;
+    }
+
+    .sidebar a:hover {
+      background: #444;
+    }
+
+    .open-btn {
+      font-size: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+    }
+
+    .profile-img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: none; /* hidden before login */
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Modal (login/signup) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    .modal-content button {
+      width: 100%;
+      padding: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background: #555;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <button class="open-btn" onclick="openSidebar()">☰</button>
+    <div class="logo">Crypto News</div>
+    <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/profile.png" alt="profile" class="profile-img" id="profileImg">
+  </header>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <span class="drawer-btn" onclick="toggleDrawer()">☰</span>
-    <h1>Crypto News</h1>
+  <div id="sidebar" class="sidebar">
+    <a href="#">Home</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact</a>
+    <a href="#" id="loginBtn">Login</a>
+    <a href="#" id="signupBtn">Sign Up</a>
   </div>
 
-  <!-- Sidebar Drawer -->
-  <div id="drawer" class="drawer">
-    <a href="#">🏠 Home</a>
-    <a href="#">ℹ️ About Us</a>
-    <a href="#">📞 Contact Us</a>
-    
-    <!-- Auth buttons -->
-    <div id="authBtns" class="auth-buttons">
-      <a href="#" onclick="login()">🔑 Login</a>
-      <a href="#" onclick="signup()">📝 Signup</a>
-    </div>
+  <div class="container">
+    <h2>Today's Crypto News</h2>
+    <div id="news">Loading...</div>
+  </div>
 
-    <!-- User Logo -->
-    <div id="userLogo" class="hidden">
-      <img src="https://github.com/Surajdas007272/Website/blob/main/file_000000008ef061f7833042536ee413cf.png" alt="User" class="logo">
-      <a href="#" onclick="logout()">🚪 Logout</a>
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button onclick="login()">Login</button>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="content">
-    <div class="card">
-      <h2>Today's Crypto News</h2>
-      <p><b>Bitcoin (BTC)</b> ne aaj $61,200 ke aas-paas trade kiya, kal ke mukable 2% upar.</p>
-      <p><b>Ethereum (ETH)</b> halka neeche aaya hai, abhi $2,300 par chal raha hai.</p>
-      <p><b>Solana (SOL)</b> ne accha pump dikhaya aur 4% upar gaya hai.</p>
-      <p><b>Buy Recommendation:</b> SOL & ETH (short term).  
-         <b>Sell Recommendation:</b> DOGE (pump ke baad correction expected).</p>
+  <!-- Signup Modal -->
+  <div class="modal" id="signupModal">
+    <div class="modal-content">
+      <h2>Sign Up</h2>
+      <input type="email" id="signupEmail" placeholder="Email" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <button onclick="signup()">Sign Up</button>
     </div>
   </div>
 
   <script>
-    function toggleDrawer() {
-      let drawer = document.getElementById("drawer");
-      drawer.style.left = (drawer.style.left === "0px") ? "-250px" : "0px";
+    const sidebar = document.getElementById("sidebar");
+    const profileImg = document.getElementById("profileImg");
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+
+    function openSidebar() {
+      sidebar.style.width = "200px";
+    }
+    function closeSidebar() {
+      sidebar.style.width = "0";
     }
 
-    function checkLogin() {
-      let isLoggedIn = localStorage.getItem("loggedIn");
-      if (isLoggedIn === "true") {
-        document.getElementById("authBtns").classList.add("hidden");
-        document.getElementById("userLogo").classList.remove("hidden");
-      } else {
-        document.getElementById("authBtns").classList.remove("hidden");
-        document.getElementById("userLogo").classList.add("hidden");
+    // Show modal
+    document.getElementById("loginBtn").onclick = () => {
+      document.getElementById("loginModal").style.display = "flex";
+    }
+    document.getElementById("signupBtn").onclick = () => {
+      document.getElementById("signupModal").style.display = "flex";
+    }
+
+    // Close modal on outside click
+    window.onclick = (e) => {
+      if (e.target.classList.contains("modal")) {
+        e.target.style.display = "none";
+      }
+    }
+
+    function signup() {
+      const email = document.getElementById("signupEmail").value;
+      const pass = document.getElementById("signupPassword").value;
+      if(email && pass){
+        localStorage.setItem("user", JSON.stringify({email, pass}));
+        alert("Signup successful! Now login.");
+        document.getElementById("signupModal").style.display = "none";
       }
     }
 
     function login() {
-      alert("Login Successful ✅");
-      localStorage.setItem("loggedIn", "true");
-      checkLogin();
-    }
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPassword").value;
+      const user = JSON.parse(localStorage.getItem("user"));
 
-    function signup() {
-      alert("Signup Successful 🎉");
-      localStorage.setItem("loggedIn", "true");
-      checkLogin();
+      if(user && user.email === email && user.pass === pass){
+        alert("Login successful!");
+        profileImg.style.display = "block"; 
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
+      } else {
+        alert("Invalid credentials!");
+      }
     }
-
-    function logout() {
-      alert("Logged out ❌");
-      localStorage.setItem("loggedIn", "false");
-      checkLogin();
-    }
-
-    // On page load
-    checkLogin();
   </script>
-
 </body>
 </html>
-
