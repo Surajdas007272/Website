@@ -25,6 +25,7 @@
       font-weight: bold;
     }
 
+    /* Sidebar */
     .sidebar {
       height: 100%;
       width: 0;
@@ -35,6 +36,7 @@
       overflow-x: hidden;
       transition: 0.3s;
       padding-top: 60px;
+      z-index: 999; /* Above overlay */
     }
 
     .sidebar a {
@@ -67,11 +69,21 @@
       padding: 20px;
     }
 
+    /* Overlay for sidebar */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      z-index: 998;
+    }
+
     /* Modal (login/signup) */
     .modal {
       display: none;
       position: fixed;
-      z-index: 1;
+      z-index: 1000;
       left: 0; top: 0;
       width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
@@ -114,11 +126,15 @@
   <header>
     <button class="open-btn" onclick="openSidebar()">☰</button>
     <div class="logo">Crypto News</div>
-    <img src="https://github.com/Surajdas007272/Website/blob/main/file_0000000008746243aab3beb54524d5fc.png" alt="profile" class="profile-img" id="profileImg">
+    <img src="https://raw.githubusercontent.com/Surajdas007272/Website/main/file_0000000008746243aab3beb54524d5fc.png" alt="profile" class="profile-img" id="profileImg">
   </header>
 
+  <!-- Overlay -->
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-    <a href="rainbow-chimera-fc6dac.netlify.app">Home</a>
+    <a href="#">Home</a>
     <a href="#">About Us</a>
     <a href="#">Contact</a>
     <a href="#" id="loginBtn">Login</a>
@@ -127,7 +143,7 @@
 
   <div class="container">
     <h2>Today's Crypto News</h2>
-    <div id="news">Loading...</div>
+    <div id="news">Bitcoin ne aaj $61,200 ke aas-paas trade kiya, Ethereum $2,300 par hai, aur Solana 4% upar gaya hai. 🚀</div>
   </div>
 
   <!-- Login Modal -->
@@ -152,23 +168,28 @@
 
   <script>
     const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
     const profileImg = document.getElementById("profileImg");
     const loginBtn = document.getElementById("loginBtn");
     const signupBtn = document.getElementById("signupBtn");
 
     function openSidebar() {
       sidebar.style.width = "200px";
+      overlay.style.display = "block";
     }
     function closeSidebar() {
       sidebar.style.width = "0";
+      overlay.style.display = "none";
     }
 
     // Show modal
-    document.getElementById("loginBtn").onclick = () => {
+    loginBtn.onclick = () => {
       document.getElementById("loginModal").style.display = "flex";
+      closeSidebar();
     }
-    document.getElementById("signupBtn").onclick = () => {
+    signupBtn.onclick = () => {
       document.getElementById("signupModal").style.display = "flex";
+      closeSidebar();
     }
 
     // Close modal on outside click
@@ -206,5 +227,3 @@
   </script>
 </body>
 </html>
-
-
